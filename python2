@@ -1,0 +1,49 @@
+small = 15
+medium = 20
+large = 25
+
+Cellule de code <fcKSDEy4qqLU>
+# %% [code]
+
+print("Bienvenu dans python pizza deliveries")
+#saisie de la taille de la pizza
+taille = input("choisissez la taille de votre pizza")
+#saisie de pépéronie
+add_peperonie = input("voulez-vous un supplément de pépéronie")
+#saisie de fromage
+extra_cheese = input("voulez-vous un supplément de fromage")
+
+if taille == "small":
+  prix = small
+  print(f"le prix de votre pizza est de {prix}")
+  if add_peperonie == "yes" :
+    prix+=2   #prix=prix+2
+  else :
+    print("le prix de votre pizza est de {}").format(prix)
+  if extra_cheese == "yes" :
+    prix+=1
+  else :
+    print("le prix de votre pizza est de {}").format(prix)
+elif taille == "medium":
+  prix = medium
+  print(f"le prix de votre pizza est de {prix}")
+  if add_peperonie == "yes" :
+    prix+=3   #prix=prix+2
+  else :
+    print("le prix de votre pizza est de {}").format(prix)
+  if extra_cheese == "yes" :
+    prix+=1
+  else :
+    print("le prix de votre pizza est de {}").format(prix)
+elif taille == "large":
+  prix = large
+  print(f"le prix de votre pizza est de {prix}")
+  if add_peperonie == "yes" :
+    prix+=3   #prix=prix+2
+  else :
+    print("le prix de votre pizza est de {}").format(prix)
+  if extra_cheese == "yes" :
+    prix+=1
+  else :
+    print("le prix de votre pizza est de {}").format(prix)
+print(f"le prix de votre pizza est de,{prix}$")
