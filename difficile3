@@ -1,0 +1,155 @@
+create database difficile3
+use difficile3
+
+/*Convertissez le diagramme entité-relation donné en un modèle relationnel.
+
+wine (Vin) :
+
+NumW : Clé primaire.
+Category : Catégorie de vin.
+Year : Année de production.
+Degree : Degré d'alcool.
+
+producer (Producteur) :
+NumP : Clé primaire.
+FirstName : Prénom.
+LastName : Nom.
+Region : Région du producteur.
+harvest (Récolte) :
+
+NumW : Clé étrangère vers la table wine.
+NumP : Clé étrangère vers la table producer.
+Quantity : Quantité de vin récolté.
+*/
+
+/* Implémentation du modèle relationnel à l'aide de SQL
+Création des tables :*/
+
+CREATE TABLE win (
+    NumW NUMERIC PRIMARY KEY,
+    Category VARCHAR(60),
+    ProductYear INT,
+    Degree NUMERIC
+);
+
+
+CREATE TABLE producteur (
+    NumP NUMERIC PRIMARY KEY,
+    FirstName VARCHAR(60),
+    LastName VARCHAR(60),
+    Region VARCHAR(60)
+);
+
+CREATE TABLE harvest (
+    NumW NUMERIC,
+    NumP NUMERIC,
+    Quantity NUMERIC,
+    PRIMARY KEY (NumW, NumP),
+    FOREIGN KEY (NumW) REFERENCES win(NumW),
+    FOREIGN KEY (NumP) REFERENCES producteur(NumP)
+);
+/*Insertion des données dans les tables :*/
+
+INSERT INTO win (NumW, Category, ProductYear, Degree) VALUES
+(1, 'Rouge', 2019, 13.5),
+(2, 'Blanc', 2020, 12.0),
+(3, 'Rose', 2018, 11.5),
+(4, 'Red', 2021, 14.0),
+(5, 'Sparkling', 2017, 10.5),
+(6, 'Blanc', 2019, 12.5),
+(7, 'Rouge', 2022, 13.0),
+(8, 'Rose', 2020, 11.0),
+(9, 'Rouge', 2018, 12.0),
+(10, 'Sparkling', 2019, 10.0),
+(11, 'Blanc', 2021, 11.5),
+(12, 'Rouge', 2022, 15.0);
+
+INSERT INTO producteur(NumP, FirstName, LastName, Region) VALUES
+(1, 'John', 'Smith', 'Sousse'),
+(2, 'Emma', 'Johnson', 'Tunis'),
+(3, 'Michael', 'Williams', 'Sfax'),
+(4, 'Emily', 'Brown', 'Sousse'),
+(5, 'James', 'Jones', 'Sousse'),
+(6, 'Sarah', 'Davis', 'Tunis'),
+(7, 'David', 'Miller', 'Sfax'),
+(8, 'Olivia', 'Wilson', 'Monastir'),
+(9, 'Daniel', 'Moore', 'Sousse'),
+(10, 'Sophia', 'Taylor', 'Tunis'),
+(11, 'Matthieu', 'Anderson', 'Sfax'),
+(12, 'Amélia', 'Thomas', 'Sousse');
+
+INSERT INTO harvest (NumW, NumP, Quantity) VALUES
+(1, 1, 100),
+(2, 2, 200),
+(3, 3, 150),
+(4, 4, 120),
+(5, 5, 180),
+(6, 6, 220),
+(7, 7, 170),
+(8, 8, 130),
+(9, 9, 300),
+(10, 10, 90),
+(11, 11, 110),
+(12, 12, 320);
+
+
+SELECT *
+FROM producteur
+
+SELECT *
+FROM producteur
+Order by LastName
+
+SELECT * FROM producteur
+WHERE Region = 'Sousse'
+
+SELECT SUM(Quantity) AS TotalQuantity
+FROM harvest
+WHERE NumW = 12
+
+SELECT w.Category, SUM(h.Quantity) AS TotalQuantity
+FROM harvest h
+JOIN win w ON h.NumW = w.NumW
+GROUP BY w.Category
+
+SELECT p.FirstName, p.LastName
+FROM producteur p
+JOIN harvest h ON p.NumP = h.NumP
+WHERE p.Region = 'Sousse' AND h.Quantity > 300
+ORDER BY p.LastName, p.FirstName
+
+SELECT w.NumW
+FROM harvest h
+JOIN win w ON h.NumW = w.NumW
+WHERE h.NumP = 24 AND w.Degree > 12
+
+SELECT TOP 1 p.FirstName, p.LastName, SUM(h.Quantity) AS TotalQuantity 
+FROM producteur p
+JOIN harvest h ON p.NumP = h.NumP
+GROUP BY p.FirstName, p.LastName
+ORDER BY TotalQuantity DESC 
+
+SELECT AVG(Degree) AS AvgDegree
+FROM win;
+
+SELECT TOP 1 NumW
+FROM win
+ORDER BY ProductYear ASC
+
+SELECT p.FirstName, p.LastName, SUM(h.Quantity) AS TotalQuantity
+FROM producteur p
+JOIN harvest h ON p.NumP = h.NumP
+GROUP BY p.FirstName, p.LastName
+
+SELECT w.NumW, w.Category, w.ProductYear, w.Degree, p.FirstName, p.LastName, p.Region
+FROM win w
+JOIN harvest h ON w.NumW = h.NumW
+JOIN producteur p ON h.NumP = p.NumP
+
+
+
+
+
+
+
+
