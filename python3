@@ -1,0 +1,27 @@
+shopping_list = []
+taille = int(input("Entrez la taille de votre liste: "))
+while len(shopping_list) < 20 :
+  try:
+    print("/nMenu d'option:")
+    print("1. Ajouter un élement:")
+    print("2. Supprimer un élement:")
+    print("3. Afficher un élement:")
+    choix = input("Veillez choisir une option")
+    if choix == "1":
+      for i in range(taille):
+        while len(shopping_list) < taille:  
+          A = input("Ajoutez l'élément")
+          shopping_list.append(A)
+          print(f"{A} a été ajouté à la liste")
+    elif choix == "2" :
+      A = input("Supprimer un élément")
+      shopping_list.remove(A)
+      print(f"{A} a été supprimé de la liste")
+    elif choix == "3" :
+      for i in shopping_list:
+        print(i)
+    elif choix == 'end':
+      print('A Bientot')
+      break
+  except:
+    print("Entrez la bonne option")
