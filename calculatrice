@@ -1,0 +1,61 @@
+#Créez quatre fonctions mathématiques de base : « ajouter », « soustraire », « multiplier » et « diviser » qui prennent
+#deux nombres et renvoient le résultat de l’opération.
+
+
+#ADDITION
+
+def ajouter(a,b):
+  return a+b
+
+#soustraction
+
+def soustraire(c,d):
+  return c-d
+
+#Multiplication
+
+def multiplie(a,b):
+  return a*b
+
+#division
+
+def divise(a, b):
+  return a/b
+#Créez un dictionnaire « opérations » qui attribue les fonctions à leurs symboles d’opération correspondants.
+import operator
+operations = {"+":operator.add,
+              "-":operator.sub,
+              "*":operator.mul,
+              "/":operator.truediv}
+
+#Créez une fonction « calculatrice » qui invite l’utilisateur à saisir le premier nombre.
+def calculatrice():
+  a = int(input("veillez saisir un nombre"))
+
+  operation = {"+":ajouter,"-":soustraire,"*":multiplie,"/":divise}
+  #Utilisez une boucle for pour imprimer les symboles d'opération disponibles.
+  for i in operation.keys():
+    print(i)
+
+  #Créez une boucle while qui continuera à s'exécuter jusqu'à ce que
+  #l'utilisateur choisisse de mettre fin au calcul en cours.
+    answer = input('Voulez-vous continuez ?')
+    should_continue = True
+    while should_continue:
+
+
+        signe = input("Entrez le signe de l'opérateur")
+        b = int(input("veillez saisir un nombre"))
+        operator_fuction = {"+":ajouter,
+                          "-":soustraire,
+                          "*":multiplie,
+                          "/":divise}
+        calculation_fuction =  operator_fuction[signe](a, b)
+        print (calculation_fuction)
+        ask = input("Voulez-vous utiliser le resultat comme première valeur")
+        if ask == "yes":
+          a = calculation_fuction
+        elif ask != "yes":
+          a = int(input("Donnez la nouvelle valeur de a:"))
+        else:
+          should_continue = False
