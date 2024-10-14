@@ -1,0 +1,104 @@
+class person:
+  def __init__(self, name, age) :
+      self.age = age
+      self.name = name 
+
+  def myfunction(self):
+
+    print("my name is " + self.name)    
+    
+    
+    
+p1 = person("John", 36)
+p1.myfunction()
+
+class player:
+ def __init__(self, name):
+  self.name = name
+
+ def run(self):
+  print(f"{self.name} is runing in the game.")
+
+
+
+p1 = player("John")
+p1.run()
+
+class Player:
+
+    def __init__(self, name, age):
+
+        self.name = name
+
+        self.age = age
+
+        
+
+    def run(self):
+
+        print(f"{self.name} is running in the game.")
+
+        
+
+    def speak(self):
+
+        print(f"My name is {self.name} and I am {self.age} years old.")        
+
+player1 = Player("John", 25)
+
+player1.run() # Output: "John is running in the game."
+
+player1.speak() # Output: "My name is John and I am 25 years old."
+ class Player:
+
+    def __init__(self, name, age):
+
+        self.name = name
+
+        self.age = age
+
+        
+
+    def speak(self):
+
+        print(f"My name is {self.name} and I am {self.age} years old.")
+
+        
+
+    def run(self):
+
+        # code for running in the game
+
+        
+
+    def jump(self):
+
+        # code for jumping in the game
+
+        
+
+player = Player("John", 25)
+
+player.speak()
+
+
+
+class SuperPlayer(Player):
+
+    def __init__(self, name, age):
+
+        super().__init__(name, age)
+
+        
+
+    def fly(self):
+
+        # code for flying in the game
+
+
+
+super_player = SuperPlayer("Jack", 30)
+
+super_player.speak()
+
+super_player.fly()
