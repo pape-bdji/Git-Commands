@@ -102,3 +102,66 @@ super_player = SuperPlayer("Jack", 30)
 super_player.speak()
 
 super_player.fly()
+class Player:
+
+    def __init__(self, name, age):
+
+        self.name = name
+
+        self.age = age
+
+        
+
+    def speak(self):
+
+        print(f"My name is {self.name} and I am {self.age} years old.")
+
+        
+
+    def run(self):
+
+        # code for running in the game
+
+        
+
+    def jump(self):
+
+        # code for jumping in the game
+
+
+
+class AdvancedPlayer(Player):
+
+    def __init__(self, name, age, skill_level):
+
+        super().__init__(name, age)
+
+        self.skill_level = skill_level
+
+        
+
+    def run(self):
+
+        print(f"{self.name} is running at a skill level of {self.skill_level}.")
+
+        
+
+player1 = Player("John", 25)
+
+player2 = AdvancedPlayer("Jane", 30, "Expert")
+
+
+
+players = [player1, player2]
+
+
+
+for player in players:
+
+    player.run()
+#/////////////////////////////////////////////////////////////////////////
+numbers = [1, 2, 3, 4, 5]
+
+squared_numbers = map(lambda x: x*x, numbers) #Pour elever au carré
+
+print(list(squared_numbers))
