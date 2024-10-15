@@ -1,0 +1,31 @@
+#Créez une classe appelée « Compte » qui possède les attributs suivants :
+
+class Compte:
+#Pour définir les attributs de la class Compte  
+  def __init__(self,account_number:str,account_balance:float,account_holder:str):
+    self.account_number = account_number
+    self.account_balance = account_balance
+    self.account_holder = account_holder
+
+  def deposit(self,amount: float):
+    self.amount = amount 
+    self.account_balance += self.amount 
+    print(f"Vous avez déposé {self.amount}")
+    print(f"Votre sode est de: {self.account_balance} ")
+
+  def withdraw(self,montant : float):
+    self.montant = montant
+    if montant > self.account_balance:
+      print("le montant saisie ne peut etre retirer")
+    else:
+      self.account_balance -= self.montant
+      print(f"Vous avez retiré {self.montant} ")
+      print(f"Votre sode est de: {self.account_balance} ")
+
+  def check_balance(self) : 
+    print(f"votre solde est de : {self.account_balance} ")
+
+my_account1 = Compte("1234",0,"Kadidiatou")
+my_account2 = Compte("012",200,"Djamil") 
+
+my_account1.deposit(50)
