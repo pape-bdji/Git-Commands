@@ -1,0 +1,19 @@
+import numpy as np
+
+#Utilisez la fonction open() pour ouvrir le fichier csv et affecter le résultat à une variable.
+file_object = open('Loan_prediction_dataset.csv')
+data = np.genfromtxt(file_object, delimiter="," , dtype=None, encoding='utf-8', names=True)
+
+#Utilisez le tableau numpy pour effectuer une analyse statistique de base sur les données,
+#comme trouver la moyenne, la médiane et l'écart type des montants des prêts.
+
+mean_LA = np.mean(data["LoanAmount"]) 
+print("Moyenne des montants des prêts :", mean_LA)
+
+median_LA = np.median(data["LoanAmount"])
+print("Médiane des montants des prêts :", median_LA)
+
+std_LA = np.std(data["LoanAmount"])
+print("Ecart type des montants des prêts :", std_LA)
+
+file_object.close()
