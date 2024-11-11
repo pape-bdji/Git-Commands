@@ -1,0 +1,51 @@
+import pandas as pd
+import numpy as np
+
+#1 Chargez l'ensemble de données,
+#affichez les dix premières lignes, stockez les résultats dans une variable appelée « client_0_bills ».
+
+data = pd.read_csv('STEG_BILLING_HISTORY.csv')
+data.head(10)
+
+client_0_bills = data.head(10)
+client_0_bills
+
+#2 Quel est le type de données de la variable 'client_0_bills' ?
+client_0_bills.dtypes
+# le type de données de la variable 'client_0_bills' est dtype: object
+
+#3 Affichez les informations générales du jeu de données et essayez de répondre aux questions suivantes :
+data.info()
+
+#a Combien de lignes et de colonnes avons-nous dans cet ensemble de données ?
+# REPONSE : nous avons 16 colonnes et 2159640 lignes  (0 to 2159639)
+
+#b Combien de fonctionnalités catégorielles sont présentes dans l'ensemble de données ?
+# REPONSE : nous 4 fonctionnalité catégorielles
+
+#c Combien d'espace mémoire l'ensemble de données consomme-t-il ?
+# REPONSE : memory usage: 263.6+ MB
+
+#4 Inspectez l’ensemble de données pour détecter d’éventuelles valeurs manquantes.
+data.isnull().sum()
+
+#5 Sélectionnez votre stratégie pour gérer les valeurs manquantes et dites-nous pourquoi vous avez fait ce choix.
+data.dropna(inplace=True)
+# on a supprimer les données manquantes parce qu'elle n'impactent pas nos resultats
+
+#6 Exécutez une analyse descriptive sur les caractéristiques numériques (colonnes).
+data.describe()
+
+#7 Sélectionnez les enregistrements de factures pour le client avec un identifiant = 'train_Client_0', en utilisant 2 méthodes.
+data[data['client_id']=='train_Client_0']
+
+#8 Transformez la fonctionnalité « counter_type » en une variable numérique à l'aide de l'encodeur de votre choix.
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+data['counter_type'] = le.fit_transform(data['counter_type'])
+data['counter_type']
+
+#9 Supprimer la fonctionnalité « counter_statue » du Dataframe
+data = data.drop('counter_statue', axis=1)
+
