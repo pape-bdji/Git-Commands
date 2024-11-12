@@ -1,0 +1,45 @@
+#Partie 1 : Exploration des données avec Pandas
+#Charger l'ensemble de données fourni dans un dataframe pandas
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv('Tunisair_flights_dataset.csv')
+
+#Utilisez pandas pour explorer l'ensemble de données
+df.head()
+df.info()
+
+#Recherchez les valeurs manquantes dans l'ensemble de données.
+df.isnull().sum()
+
+#Utilisez pandas pour calculer certaines statistiques récapitulatives pour l'ensemble de données.
+df.describe()
+
+#Partie 2 : Exploration des données avec ydata-Profiling
+
+#Utilisez ydata-profiling pour générer un rapport de l'ensemble de données fourni.
+from ydata_profiling import ProfileReport
+profile = ProfileReport(df, title='Pandas Profiling Report')
+profile.to_notebook_iframe()
+profile.to_file("report.html")
+
+#Recherchez les valeurs manquantes dans l'ensemble de données
+#On note que selon notre rapport il n'y a pas de valeur manquantes.
+
+#Résume
+######################################################################################################
+Nos données sont contitués de 8 variables de types catégorielles et d'une variable de type Float. 
+On peut noter une absence de valeur maquante
+	Arrival delay
+count	107833.000000
+mean	48.733013
+std	117.135562
+min	0.000000
+25%	0.000000
+50%	14.000000
+75%	43.000000
+max	3451.000000
+on note une faible corrélation positive (r = 0,03) entre la variable arrival delay et Statut
+######################################################################################################
+
+
