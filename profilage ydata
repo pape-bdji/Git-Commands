@@ -12,3 +12,11 @@ dfs.describe()
 from ydata_profiling import ProfileReport
 profile = ProfileReport(dfs, title='Pandas Profiling Report')
 profile.to_notebook_iframe()
+#Rapport
+Selon notre rapport obtenu on note :
+38 variables (37 numérique et 1e de type texte), 
+18 valeurs manquantes 
+Une ligne dupliquée
+Une forte corrélation entre les variables numérique sauf pour la variable years qui est faiblement corrélé avec les autres variables
+
+
