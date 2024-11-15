@@ -1,0 +1,14 @@
+import pandas as pd
+import numpy as np
+
+dfs = pd.read_csv('EDUCATION_ATTAINMENT.csv')
+
+dfs.info()
+
+dfs.describe()
+
+!pip install ydata_profiling
+
+from ydata_profiling import ProfileReport
+profile = ProfileReport(dfs, title='Pandas Profiling Report')
+profile.to_notebook_iframe()
