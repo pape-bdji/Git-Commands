@@ -1,0 +1,64 @@
+#Écrire une fonction pour obtenir et analyser le contenu HTML d'une page Wikipédia
+import requests
+import pandas as pd
+import numpy as np
+from bs4 import BeautifulSoup
+
+#Écrire une fonction pour obtenir et analyser le contenu HTML d'une page Wikipédia
+link = 'https://fr.wikipedia.org/wiki/Cath%C3%A9drale_Saint-Paul-Aur%C3%A9lien_de_Saint-Pol-de-L%C3%A9on'
+result = requests.get(link)
+soup = BeautifulSoup(result.text, 'html.parser')
+# Vérifiez que la requête a réussi
+if result.status_code == 200:
+    print("Requête réussie !")
+else:
+    print("Erreur lors de la requête :", result.status_code)
+
+#Écrire une fonction pour extraire le titre de l'article
+titre = soup.title.string
+print('Le titre est :' ,titre)
+
+#Écrire une fonction pour extraire le texte de l'article pour chaque paragraphe avec 
+leurs titres respectifs. Mapper ces titres à leurs paragraphes respectifs dans un dictionnaire.
+ for paragraph_title in soup.find_all('div', class_='mw-parser-output'):
+    print(paragraph_title.text, paragraph.text)
+
+#Écrire une fonction pour collecter chaque lien qui redirige vers une autre page Wikipédia
+liens = soup.find_all('a', href=True)
+for lien in liens:
+    print(lien['href'])
+
+#Regrouper toutes les fonctions précédentes en une seule fonction qui prend comme paramètre un lien Wikipédia
+class Wikipedia:
+    def lien_wikipedia(self, url=None):
+      self.url = url
+      if url :
+        self.url = url
+      else:
+        self.url = str(input('Entrez un lien Wikipédia : '))
+      print('Le lien saisi est :', self.url)
+      result = requests.get(self.url)
+      soup = BeautifulSoup(result.text, 'html.parser')
+      if result.status_code == 200:
+         print("Requête réussie !")
+      else:
+         print("Erreur lors de la requête :", result.status_code)
+    def get_titre(self):
+      titre = soup.title.string
+      print('Le titre est :' ,titre)
+    def get_paragraph(self):
+      for paragraph_title in soup.find_all('div', class_='mw-parser-output'):
+        print(paragraph_title.text, paragraph.text)
+    def get_liens(self):
+      liens = soup.find_all('a', href=True)
+      for lien in liens:
+        print(lien['href'])
+
+
+Wikipedia().lien_wikipedia()
+wikipedia = Wikipedia()
+wikipedia.get_titre()
+wikipedia.get_paragraph()
+wikipedia.get_liens
+
+
