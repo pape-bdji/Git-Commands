@@ -1,0 +1,46 @@
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+
+#Chargez l'ensemble de données dans un cadre de données à l'aide de Python.
+df = pd.read_csv('Africa_climate_change.csv')
+
+#Nettoyez les données selon vos besoins.
+import ydata_profiling
+from ydata_profiling import ProfileReport
+profile = ProfileReport(df, title='Pandas Profiling Report')
+profile.to_notebook_iframe()
+
+#nos données contiennent des valeurs manquantes des doublons 
+df.duplicated()
+df.isnull().sum()
+#supprimons les les données dupliquées
+df.drop_duplicates(inplace=True)
+# la colonne PRCP ayant 61% de données manquantes sera supprimé
+df = df.drop(['PRCP'], axis=1)
+
+#Gérons le reste des données manquantes*
+# on procéde par une interpolation des valeurs manquantes
+df = df.interpolate()
+df.isnull().sum()
+
+#Gérons les valeurs abérantes
+for col in df.columns:
+  if df[col].dtype == 'int':
+    Q1 = np.quantile(df[col], 0.25)
+    Q3 = np.quantile(df[col], 0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    #df[col] = np.where((df[col] < lower_bound) | (df[col] > upper_bound), np.nan, df[col])
+    #df['ouliers']  = (df[col] < lower_bound)| (df[col] > upper_bound)
+    df.loc[(df[col] < lower_bound)| (df[col] > upper_bound)] = np.nan   
+    df.isnull().sum()
+#Faisons une interpolation des valeurs abérantes
+
+
+
+
+
+#Tracez un graphique linéaire pour montrer les fluctuations de température moyenne en Tunisie et au Cameroun. Interprétez les résultats.
