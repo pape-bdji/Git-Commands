@@ -1,0 +1,37 @@
+#Importation de bibliothèques
+
+import numpy as np
+
+import pandas as pd
+
+import matplotlib.pyplot en tant que plt
+
+from sklearn.model_selection import train_test_split
+
+from sklearn.linear_model import LinearRegression
+
+from sklearn.metrics import mean_squared_error
+
+from sklearn import metrics
+
+#Chargement de l'ensemble de données
+
+data = pd.read_csv("Data.csv")
+
+#extraire x et y de nos données
+
+x=data["Age"].values[ :,np.newaxis]
+
+y=data["Salaire"].values
+
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.35,random_state=40) #splitting data with test size of 35%
+
+model=LinearRegression() #construit un modèle de régression linéaire
+
+model.fit(x_train,y_train) #fitting the training data
+
+predicted=model.predict(x_test) #tester la performance de notre modèle
+
+print("MSE", mean_squared_error(y_test,predicted))
+
+print("R carré", metrics.r2_score(y_test,predicted))
