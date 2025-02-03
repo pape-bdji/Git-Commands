@@ -1,0 +1,68 @@
+# Importation BD
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+data = pd.read_csv('Electric_cars_dataset.csv')
+#info sur la BD
+data.info()
+#Rapport de profilage pd
+!pip install ydata_profiling
+from ydata_profiling import ProfileReport
+profile = ProfileReport(data)
+profile.to_file('SVM.html')
+
+data.isnull().sum()
+data.duplicated().sum()
+#Gestion des valeurs abérantes
+for col in data.columns:
+  if data[col].dtype == 'int' or data[col].dtype == 'float':
+    Q1 = np.quantile(data[col] , 0.25)
+    Q3 = np.quantile(data[col], 0.75)
+    IQR = Q3-Q1
+    max = Q3+1.5*IQR
+    min = Q1-1.5*IQR
+    out = data[(data[col] > max) | (data[col] < min)]
+    print(col,len(out))
+data['Expected Price ($1k)'] = pd.to_numeric(data['Expected Price ($1k)'], errors='coerce')
+data['Model Year'] = pd.to_datetime(data['Model Year'])
+data = data.rename(columns={'Model Year': 'Model_Year'})
+data = data.rename(columns={'Expected Price ($1k)': 'Expected_Price'})
+data = data.rename(columns={'Electric Range': 'Electric_Range'})
+data = data.rename(columns={'Base MSRP': 'Base_MSRP'})
+data = data.rename(columns={'Legislative District': 'Legislative_District'})
+data = data.rename(columns={'DOL Vehicle ID': 'DOL_Vehicle_ID'})
+data = data.rename(columns={'Vehicle Location': 'Vehicle_Location'})
+data = data.rename(columns={'Electric Utility': 'Electric_Utility'})
+data = data.rename(columns={'Electric Vehicle Type': 'Electric_vehicle_Type'})
+data = data.rename(columns={'Clean Alternative Fuel Vehicle (CAFV) Eligibility': 'Clean_Alternative_Fuel_Vehicle_(CAFV)_Eligibility'})
+data = data.rename(columns={'VIN (1-10)': 'VIN_(1-10)'})
+data = data.rename(columns={'ZIP Code': 'ZIP_Code'})
+for i in data.columns:
+  if data[i].dtype == "int" or data[i].dtype == 'float' :
+     data[i] = np.log(data[i])
+# Import label encoder
+from sklearn import preprocessing
+
+label_encoder = preprocessing.LabelEncoder()
+
+
+for i in data.columns:
+   if data[i].dtype == 'object':
+    data[i]= label_encoder.fit_transform(data[i])
+
+y=data['Expected_Price']
+X=data.drop(['Expected_Price','ID','Model_Year','VIN_(1-10)','ZIP_Code'],axis=1)
+
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.svm import LinearSVC, SVC, NuSVC
+from sklearn.metrics import accuracy_score
+
+X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.2, random_state=42)
+linear_clf = LinearSVC(random_state=42, max_iter=10000)
+linear_clf.fit(X_train, y_train)
+y_pred_linear = linear_clf.predict(X_test)
+acc_linear = accuracy_score(y_test, y_pred_linear)
+print(f"LinearSVC Accuracy: {acc_linear:.2f}")
