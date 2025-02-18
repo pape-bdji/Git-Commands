@@ -1,0 +1,80 @@
+import streamlit as st
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+# Title
+st.title("Analyse et Prédiction du Churn avec Decision Tree")
+
+# Upload File
+uploaded_file = st.file_uploader("C:/Users/HP/OneDrive/Bureau/Expresso_chrun/Expresso_churn_dataset.csv", type=["csv"])
+if uploaded_file is not None:
+    dt = pd.read_csv(uploaded_file)
+    
+    # Affichage des premières lignes
+    st.subheader("Aperçu des données")
+    st.write(dt.head())
+    
+    # Informations générales
+    st.subheader("Informations générales")
+    buffer = []
+    dt.info(buf=buffer)
+    info_str = "\n".join(buffer)
+    st.text(info_str)
+    
+    # Vérification des valeurs manquantes
+    st.subheader("Valeurs manquantes")
+    st.write(dt.isnull().sum())
+    
+    # Nettoyage des données
+    dt.dropna(inplace=True)
+    
+    # Encodage des variables catégorielles
+    le = LabelEncoder()
+    for col in dt.select_dtypes(include='object'):
+        dt[col] = le.fit_transform(dt[col])
+    
+    # Suppression des outliers
+    Q1 = dt.quantile(0.25)
+    Q3 = dt.quantile(0.75)
+    IQR = Q3 - Q1
+    dt_cleaned = dt[(dt >= (Q1 - 1.5 * IQR)) & (dt <= (Q1 + 1.5 * IQR))]
+    
+    # Boxplot des variables
+    st.subheader("Distribution des données (Boxplot)")
+    fig, ax = plt.subplots()
+    sns.boxplot(data=dt_cleaned, ax=ax)
+    st.pyplot(fig)
+    
+    # Séparation des variables cibles et features
+    st.subheader("Modélisation avec Decision Tree")
+    if 'CHURN' in dt.columns:
+        x = dt.drop(['CHURN'], axis=1)
+        y = dt['CHURN']
+        
+        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=42)
+        
+        tree = DecisionTreeClassifier()
+        tree.fit(x_train, y_train)
+        
+        y_pred = tree.predict(x_test)
+        
+        accuracy = accuracy_score(y_test, y_pred)
+        st.write(f"Précision du modèle : {accuracy:.2f}")
+        
+        # Matrice de confusion
+        st.subheader("Matrice de Confusion")
+        fig, ax = plt.subplots()
+        sns.heatmap(confusion_matrix(y_test, y_pred), annot=True, fmt='d', cmap='Blues', ax=ax)
+        st.pyplot(fig)
+        
+        # Rapport de classification
+        st.subheader("Rapport de Classification")
+        st.text(classification_report(y_test, y_pred))
+    else:
+        st.error("La colonne 'CHURN' est absente du dataset. Veuillez vérifier votre fichier.")
